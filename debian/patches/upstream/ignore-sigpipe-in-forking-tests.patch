@@ -1,0 +1,100 @@
+e96b1c9e394011de4ee181cfa42b8021796bf7d4 make all tests which use fork also ignore signal PIPE
+diff --git a/t/nonblock.t b/t/nonblock.t
+index 6c1bc38..ad62799 100644
+--- a/t/nonblock.t
++++ b/t/nonblock.t
+@@ -9,7 +9,7 @@ use Net::SSLeay;
+ use Socket;
+ use IO::Socket::SSL;
+ use IO::Select;
+-use Errno qw( EWOULDBLOCK EAGAIN EINPROGRESS EPIPE ECONNRESET );
++use Errno qw( EWOULDBLOCK EAGAIN EINPROGRESS);
+ do './testlib.pl' || do './t/testlib.pl' || die "no testlib";
+ 
+ if ( ! eval "use 5.006; use IO::Select; return 1" ) {
+@@ -17,8 +17,6 @@ if ( ! eval "use 5.006; use IO::Select; return 1" ) {
+     exit;
+ }
+ 
+-$SIG{PIPE} = 'IGNORE'; # use EPIPE not signal handler
+-
+ $|=1;
+ print "1..27\n";
+ 
+diff --git a/t/protocol_version.t b/t/protocol_version.t
+index 2e5cc6f..3577720 100644
+--- a/t/protocol_version.t
++++ b/t/protocol_version.t
+@@ -7,8 +7,6 @@ use Socket;
+ use IO::Socket::SSL;
+ do './testlib.pl' || do './t/testlib.pl' || die "no testlib";
+ 
+-$SIG{PIPE} = 'IGNORE';
+-
+ plan skip_all => "Test::More has no done_testing"
+     if !defined &done_testing;
+ 
+diff --git a/t/session_ticket.t b/t/session_ticket.t
+index ca70b80..4071b8a 100644
+--- a/t/session_ticket.t
++++ b/t/session_ticket.t
+@@ -27,8 +27,6 @@ my ($server_cert,$server_key) = CERT_create(
+     purpose => { server => 1 }
+ );
+ 
+-$SIG{PIPE} = 'IGNORE';
+-
+ # create two servers with the same session ticket callback
+ my (@server,@saddr);
+ for (1,2) {
+diff --git a/t/signal-readline.t b/t/signal-readline.t
+index 6dcd4ae..3e226c0 100644
+--- a/t/signal-readline.t
++++ b/t/signal-readline.t
+@@ -50,7 +50,6 @@ if ( $pid == 0 ) {
+ 
+ my $csock = $server->accept;
+ ok("accept");
+-$SIG{PIPE} = 'IGNORE';
+ 
+ syswrite($csock,"foo") or print "not ";
+ ok("wrote foo");
+diff --git a/t/sni.t b/t/sni.t
+index c6e6510..de0f06e 100644
+--- a/t/sni.t
++++ b/t/sni.t
+@@ -17,8 +17,6 @@ if ( ! IO::Socket::SSL->can_client_sni() ) {
+     exit;
+ }
+ 
+-$SIG{PIPE} = 'IGNORE';
+-
+ print "1..17\n";
+ my $server = IO::Socket::SSL->new(
+     LocalAddr => '127.0.0.1',
+diff --git a/t/sni_verify.t b/t/sni_verify.t
+index 86b5dca..b3b299b 100644
+--- a/t/sni_verify.t
++++ b/t/sni_verify.t
+@@ -17,8 +17,6 @@ if ( ! IO::Socket::SSL->can_client_sni() ) {
+     exit;
+ }
+ 
+-$SIG{PIPE} = 'IGNORE';
+-
+ print "1..17\n";
+ my $server = IO::Socket::SSL->new(
+     LocalAddr => '127.0.0.1',
+diff --git a/t/testlib.pl b/t/testlib.pl
+index 5a99e49..b3f342c 100644
+--- a/t/testlib.pl
++++ b/t/testlib.pl
+@@ -19,6 +19,8 @@ unless ( $Config::Config{d_fork} || $Config::Config{d_pseudofork} ||
+     exit
+ }
+ 
++# let IO errors result in EPIPE instead of crashing the test
++$SIG{PIPE} = 'IGNORE';
+ 
+ # small implementations if not used from Test::More (09_fdleak.t)
+ if ( ! defined &ok ) {

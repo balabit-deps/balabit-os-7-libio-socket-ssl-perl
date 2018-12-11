@@ -1,3 +1,28 @@
+2.060 2018/09/16
+- support for TLS 1.3 with OpenSSL 1.1.1 (needs support in Net::SSLeay too)
+  Thanks to ppisar[AT]redhat.com for major help
+  see also https://rt.cpan.org/Ticket/Display.html?id=126899
+  TLS 1.3 support is not complete yet for session resume
+2.059 2018/08/15
+- fix memleak when CRL are used.
+  Thanks to Franz Skale for report and patch
+  https://rt.cpan.org/Ticket/Display.html?id=125867
+- fix memleak when using stop_SSL and threads, reported by Paul Evans
+  https://rt.cpan.org/Ticket/Display.html?id=125867#txn-1797132
+2.058 2018/07/19
+- fix t/session_ticket.t: it failed with OpenSSL 1.1.* since this version
+  expects the extKeyUsage of clientAuth in the client cert also to be allowed
+  by the CA if CA uses extKeyUsage
+2.057 2018/07/18
+- fix memory leak which occured with explicit stop_SSL in connection with
+  non-blocking sockets or timeout - https://rt.cpan.org/Ticket/Display.html?id=125867
+  Thanks to Paul Evans for reporting
+- fix redefine warnings in case Socket6 is installed but neither IO::Socket::IP
+  nor IO::Socket::INET6 - https://rt.cpan.org/Ticket/Display.html?id=124963
+- IO::Socket::SSL::Intercept - optional 'serial' argument can be starting number
+  or callback to create serial number based on the original certificate
+- new function get_session_reused to check if a session got reused
+- IO::Socket::SSL::Utils::CERT_asHash: fingerprint_xxx now set to the correct value
 2.056 2018/02/19
 - Intercept - fix creation of serial number: base it on binary digest instead of
   treating hex fingerprint as binary. Allow use of own serial numbers again.

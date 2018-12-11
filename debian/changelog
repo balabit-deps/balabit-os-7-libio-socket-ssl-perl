@@ -1,3 +1,75 @@
+libio-socket-ssl-perl (2.060-3~ubuntu18.04.1) bionic; urgency=medium
+
+  * Backport 2.060 to 18.04 LTS with TLSv1.3 support. LP: #1797386
+    Includes:
+    - upstream TLSv1.3 support
+    - testsuite fixes to ignore SIGPIPE
+    - depedencies adjusted to match SRUed version numbers
+    - reverted superflorious changes to metadata/debhelper compat
+  * Add breaks on hanging libwww-perl with TLSv1.3
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 11 Dec 2018 11:52:12 +1100
+
+libio-socket-ssl-perl (2.060-3) unstable; urgency=medium
+
+  * replace more-sigpipe-ignore.patch with an upstream commit ignoring SIGPIPE
+    in all forking tests
+  * bump the version of the libnet-ssleay-perl (build) dependency as to
+    require proper openssl 1.1.1 support
+  * add myself to Uploaders
+  * patch extra =back in POD
+
+ -- Damyan Ivanov <dmn@debian.org>  Mon, 17 Sep 2018 19:49:46 +0000
+
+libio-socket-ssl-perl (2.060-2) unstable; urgency=medium
+
+  * patch more tests to ignore SIGPIPE (Closes: #908942)
+
+ -- Damyan Ivanov <dmn@debian.org>  Mon, 17 Sep 2018 11:56:24 +0000
+
+libio-socket-ssl-perl (2.060-1) unstable; urgency=medium
+
+  * New upstream version 2.060
+    + drop all the patches (merged upstream)
+    + Fixes test failures with openssl 1.1.1
+
+ -- Damyan Ivanov <dmn@debian.org>  Mon, 17 Sep 2018 06:41:12 +0000
+
+libio-socket-ssl-perl (2.059-3) unstable; urgency=medium
+
+  * Team upload
+
+  * add explicit (build) dependency on libssl1.1 1.1.1
+
+ -- Damyan Ivanov <dmn@debian.org>  Sun, 16 Sep 2018 05:54:32 +0000
+
+libio-socket-ssl-perl (2.059-2) unstable; urgency=medium
+
+  * Team upload
+
+  * add patches by Petr Písař <ppisar@redhat.com> adapting to OpenSSL 1.1.1
+    (closes: #891625)
+  * bump debhelper compatibility level to 11
+  * patch t/protocol_version.t to ignore SIGPIPE
+  * declare conformance with POlicy 4.2.1 (no changes needed)
+
+ -- Damyan Ivanov <dmn@debian.org>  Sat, 15 Sep 2018 14:34:01 +0000
+
+libio-socket-ssl-perl (2.059-1) unstable; urgency=medium
+
+  * Import upstream version 2.059
+  * Declare compliance with Debian policy 4.2.0
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 16 Aug 2018 10:54:33 +0200
+
+libio-socket-ssl-perl (2.058-1) unstable; urgency=medium
+
+  * Update Vcs-* headers for switch to salsa.debian.org
+  * Import upstream version 2.058
+  * Declare compliance with Debian policy 4.1.5
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 19 Jul 2018 19:56:06 +0200
+
 libio-socket-ssl-perl (2.056-1) unstable; urgency=low
 
   * Import upstream version 2.056

@@ -1,5 +1,6 @@
 Source: libio-socket-ssl-perl
-Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
 Uploaders: gregor herrmann <gregoa@debian.org>,
            Ansgar Burchardt <ansgar@debian.org>,
            Salvatore Bonaccorso <carnil@debian.org>,
@@ -11,7 +12,8 @@ Build-Depends: debhelper (>= 10)
 Build-Depends-Indep: ca-certificates,
                      libnet-idn-encode-perl,
                      libnet-libidn-perl,
-                     libnet-ssleay-perl (>= 1.59),
+                     libnet-ssleay-perl (>= 1.84-1ubuntu0.1),
+                     libssl1.1 (>= 1.1.1),
                      liburi-perl,
                      netbase,
                      perl,
@@ -26,13 +28,15 @@ Rules-Requires-Root: no
 
 Package: libio-socket-ssl-perl
 Architecture: all
-Depends: libnet-ssleay-perl (>= 1.59),
+Depends: libnet-ssleay-perl (>= 1.84-1ubuntu0.1),
+         libssl1.1 (>= 1.1.1),
          netbase,
          ${misc:Depends},
          ${perl:Depends}
 Recommends: libnet-libidn-perl | libnet-idn-encode-perl | liburi-perl,
             perl (>= 5.15.6) | libsocket-perl | libsocket6-perl,
             perl (>= 5.19.8) | libio-socket-ip-perl (>= 0.20) | libio-socket-inet6-perl
+Breaks: libwww-perl (<= 6.31-1ubuntu0.1~)
 Suggests: ca-certificates
 Description: Perl module implementing object oriented interface to SSL sockets
  This module is a true drop-in replacement for IO::Socket::INET that
